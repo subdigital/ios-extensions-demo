@@ -25,14 +25,14 @@ class ShareViewController: SLComposeServiceViewController {
         }
         
 
-        let imageType = kUTTypeImage as NSString
+        let imageType = kUTTypeImage as! String
         if itemProvider?.hasItemConformingToTypeIdentifier(imageType) == true {
             itemProvider?.loadItemForTypeIdentifier(imageType, options: nil, completionHandler: {
                 (item, error) in
                 if error == nil {
                     
-                    let url = item as NSURL
-                    let imageData = NSData(contentsOfURL: url)
+                    let url = item as! NSURL
+                    let imageData = NSData(contentsOfURL: url)!
                     self.image = UIImage(data: imageData)
                 } else {
                     println("ERROR: \(error)")
@@ -54,7 +54,7 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func configurationItems() -> [AnyObject]! {
         // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
-        return NSArray()
+        return []
     }
 
 }

@@ -27,9 +27,9 @@ class ActionRequestHandler: NSObject, NSExtensionRequestHandling {
         if itemProvider?.hasItemConformingToTypeIdentifier(itemType) == true {
             itemProvider?.loadItemForTypeIdentifier(itemType, options: nil) {
                 item, error in
-                let dictionary = item as NSDictionary
+                let dictionary = item as! NSDictionary
                 NSOperationQueue.mainQueue().addOperationWithBlock {
-                    let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as NSDictionary
+                    let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as! NSDictionary
                     self.itemLoadCompletedWithPreprocessingResults(results)
                 }
             }
@@ -39,8 +39,8 @@ class ActionRequestHandler: NSObject, NSExtensionRequestHandling {
     }
     
     func itemLoadCompletedWithPreprocessingResults(results: NSDictionary) {
-        let host = results["host"] as String
-        let path = results["path"] as String
+        let host = results["host"] as! String
+        let path = results["path"] as! String
         let newURL = "http://cat.\(host).meowbify.com\(path)"
         doneWithResults(["newURL": newURL])
     }
@@ -48,7 +48,7 @@ class ActionRequestHandler: NSObject, NSExtensionRequestHandling {
     func doneWithResults(results: NSDictionary?) {
         if let finalizeResults = results {
             var resultsDictionary = [NSExtensionJavaScriptFinalizeArgumentKey: finalizeResults]
-            let itemType = kUTTypePropertyList as NSString
+            let itemType = kUTTypePropertyList as! String
             var resultsProvider = NSItemProvider(item: resultsDictionary, typeIdentifier: itemType)
             var resultsItem = NSExtensionItem()
             resultsItem.attachments = [resultsProvider]
